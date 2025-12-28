@@ -1,35 +1,20 @@
 # Web API for Semantic Textual Similarity
-A Flask application (Web API with GUI) serving SBERT models for semantic textual similarity 
+A Flask application that enables the application of an SBERT model for semantic textual similarity through a Web API and UI.
 
-![image-info](https://github.com/SebastianKotstein/Web-API-for-Multilingual-Textual-Similarity/blob/master/images/Web-UI_2024_01_06.png)
+![image-info](https://github.com/SebastianKotstein/Web-API-for-Semantic-Textual-Similarity/blob/master/images/Web-UI_2024_01_06.png)
 
-## Web API and UI for Inference
-We created a Flask app that enables the application of a RESTBERTa model through a Web API and UI.
-To use this application, download this repository, navigate to [tools](https://github.com/SebastianKotstein/RESTBERTa/tree/master/tools), and create a docker image with:
+## Run Flask App
+To use this application, download this repository and create a docker image with:
 ```
-docker build -t restberta-core .
+docker build -t sbert-flask .
 ```
-Use one of the following commands to start the application. Set the ```MODEL``` parameter to specify the RESTBERTa model that should be loaded.
-
-### Parameter Matching
-Run the following command to start a container with the RESTBERTa model that has been fine-tuned to parameter matching exclusively:
+Use the docker ```run``` command to start the application. Specify the SBERT model that should be loaded by setting the ```MODEL```parameter, e.g.:
 ```
-docker run -d -p 80:80 -e MODEL=SebastianKotstein/restberta-qa-parameter-matching --name pm-cpu restberta-core
+docker run -d -p 80:80 -e MODEL=sentence-transformers/all-MiniLM-L6-v2 --name sbert-all-minilm-l6-v2 sbert-flask
 ```
-### Endpoint Discovery
-Run the following command to start a container with the RESTBERTa model that has been fine-tuned to endpoint discovery exclusively:
+If you need to run a model hosted on Hugging Face in a private repository, you can specify a Hugging Face access token using the ```TOKEN``` parameter:
 ```
-docker run -d -p 80:80 -e MODEL=SebastianKotstein/restberta-qa-endpoint-discovery --name ed-cpu restberta-core
-```
-### Parameter Matching and Endpoint Discovery
-Run the following command to start a container with the RESTBERTa model that has been fine-tuned to both tasks:
-```
-docker run -d -p 80:80 -e MODEL=SebastianKotstein/restberta-qa-pm-ed --name pm-ed-cpu restberta-core
-```
-### Custom Models
-To start a container with a custom model hosted on Hugging Face, you can specify any model repository using the ```MODEL``` parameter. Additionally, if the model repository is private, the ```TOKEN``` parameter allows you to set a Hugging Face access token, e.g.:
-```
-docker run -d -p 80:80 -e MODEL=my-user/my-qa-model -e TOKEN=hf_12345678 --name my-model-cpu restberta-core
+docker run -d -p 80:80 -e MODEL=my-user/my-sbert-model -e TOKEN=hf_12345678 --name my-sbert-model sbert-flask
 ```
 ### Web UI
 To use the Web UI, open a browser and navigate to http://localhost:80.
