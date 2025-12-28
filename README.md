@@ -24,25 +24,46 @@ The Web API is exposed over the same endpoints as the Web UI. For proper routing
 specify either ```application/json``` or one of the application-specific MIME-types (see OpenAPI documentation) as request and response format.
 Use the following cURL to make a prediction:
 ```
-curl -L 'http://localhost:80/predict' \
--H 'Accept: application/vnd.skotstein.restberta-core.results.v1+json' \
--H 'Content-Type: application/vnd.skotstein.restberta-core.schemas.v1+json' \
--d ' {
- "schemas":[
-    {
-      "schemaId": "s00",
-      "name": "My schema",
-      "value": "state units auth.key location.city location.city_id location.country location.lat location.lon location.postal_code",
-      "queries": [
-        {
-          "queryId": "q0",
-          "name": "My query",
-          "value": "The ZIP of the city",
-          "verboseOutput": true
-        }
-      ]
-    }
-  ]
-}'
+curl --location 'localhost:80/predict' \
+--header 'Accept: application/vnd.skotstein.sentence-transformer.results.v1+json' \
+--header 'Content-Type: application/vnd.skotstein.sentence-transformer.jobs.v1+json' \
+--data '{
+    "jobs": [
+      {
+        "jobId": "j0",
+        "name": "Semantic textual similarity job",
+        "targetSentences": [
+          "My name is John Doe",
+          "Ich heiße John Doe",
+          "Me llamo John Doe",
+          "Mi chiamo John Doe",
+          "A sentence transformer is a deep learning model",
+          "Un transformador de frases es un modelo de aprendizaje profundo",
+          "Un trasformatore di frasi è un modello di apprendimento profondo"
+        ],
+        "sentences": [
+          {
+            "sentenceId": "s0",
+            "name": "Ein deutscher Satz",
+            "value": "Ein Satztransformer ist ein tiefes neuronales Netzwerk"
+          },
+          {
+            "sentenceId": "s1",
+            "name": "English introduction",
+            "value": "My name is John Doe and I work in machine learning"
+          },
+          {
+            "sentenceId": "s2",
+            "name": "Una frase italiana",
+            "value": "Ciao, il mio nome è John Doe"
+          },
+          {
+            "sentenceId": "s3",
+            "value": "Mi nombre es John Doe"
+          }
+        ]
+      }
+    ]
+}
 ```
 
